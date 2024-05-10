@@ -143,16 +143,36 @@ namespace PILFINAL
 
             public Conexion_Instancia()
             {
-                con = new SQLiteConnection("Data Source=C: \\Users\\Arzate\\Documents\\Visual Studio 2015\\Projects\\PILFINAL\\PILFINAL\\bin\\Debug\\final.s3db;");
-                con.Open();
-
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                string dbPath = Path.Combine(basePath, "final.s3db");
+                InicializarConexion(dbPath);
             }
+
             public Conexion_Instancia(string h)
             {
-                con = new SQLiteConnection("Data Source=C: \\Users\\Arzate\\Documents\\Visual Studio 2015\\Projects\\PILFINAL\\PILFINAL\\bin\\Debug\\final.s3db;");
-                con.Open();
-
+                // Esto es para compatibilidad con el constructor que recibe una ruta dinámica.
+                // No necesitamos hacer nada más aquí.
+                InicializarConexion(h);
             }
+
+            private void InicializarConexion(string path)
+            {
+                con = new SQLiteConnection("Data Source=" + path);
+                con.Open();
+            }
+
+            /*  public Conexion_Instancia()
+              {
+                  con = new SQLiteConnection("Data Source=C: \\Users\\Arzate\\Documents\\Visual Studio 2015\\Projects\\PILFINAL\\PILFINAL\\bin\\Debug\\final.s3db;");
+                  con.Open();
+
+              }
+              public Conexion_Instancia(string h)
+              {
+                  con = new SQLiteConnection("Data Source=C: \\Users\\Arzate\\Documents\\Visual Studio 2015\\Projects\\PILFINAL\\PILFINAL\\bin\\Debug\\final.s3db;");
+                  con.Open();
+
+              }*/
 
             /* ~Conexion_Instancia()
              {
