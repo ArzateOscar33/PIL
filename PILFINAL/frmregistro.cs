@@ -40,182 +40,193 @@ namespace PILFINAL
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
-            if (Convert.ToInt16(lbaño.Text)< 2010 && Convert.ToInt16(lbaño.Text) > 1970)
+            // Verificar que todos los campos no estén vacíos
+            if (string.IsNullOrWhiteSpace(txtnombre.Text) ||
+                string.IsNullOrWhiteSpace(txtap.Text) ||
+                string.IsNullOrWhiteSpace(txtam.Text) ||
+                string.IsNullOrWhiteSpace(lbdia.Text) ||
+                string.IsNullOrWhiteSpace(lbmes.Text) ||
+                string.IsNullOrWhiteSpace(lbaño.Text) ||
+                string.IsNullOrWhiteSpace(lbgenero.Text) ||
+                string.IsNullOrWhiteSpace(txtcorreo.Text))
             {
-                if (Convert.ToInt16(lbmes.Text) < 12 && Convert.ToInt16(lbmes.Text) > 0)
+                MessageBox.Show("Introduzca todos los datos");
+                return;
+            }
+
+            // Verificar que los campos no contengan los valores predeterminados
+            if (txtnombre.Text == "Introduzca su Nombre(s)" ||
+                txtap.Text == "Introduzca su Apellido Paterno" ||
+                txtam.Text == "Introduzca su Apellido Materno" ||
+                lbgenero.Text == "Genero")
+            {
+                MessageBox.Show("Introduzca los datos correctamente");
+                return;
+            }
+
+            try
+            {
+                // Validación de año
+                int año = Convert.ToInt32(lbaño.Text);
+                if (año < 2010 && año > 1970)
                 {
-                    if (Convert.ToInt16(lbdia.Text) <= 31 && Convert.ToInt16(lbdia.Text) > 0)
+                    // Validación de mes
+                    int mes = Convert.ToInt32(lbmes.Text);
+                    if (mes < 12 && mes > 0)
                     {
-                        if(Convert.ToInt16(lbmes.Text) == 1 || Convert.ToInt16(lbmes.Text) == 3 || Convert.ToInt16(lbmes.Text) == 5 || Convert.ToInt16(lbmes.Text) == 7 || Convert.ToInt16(lbmes.Text) == 9 || Convert.ToInt16(lbmes.Text) == 11 )
+                        // Validación de día
+                        int dia = Convert.ToInt32(lbdia.Text);
+                        if (dia <= 31 && dia > 0)
                         {
-                            if (Convert.ToInt16(lbdia.Text) <= 31 && Convert.ToInt16(lbdia.Text) > 0)
+                            if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 9 || mes == 11)
                             {
-                                //string password = "12345678";
-                               
-                                var sql = "insert into registro_alumnos(ap_paterno,ap_materno,nombre,genero,dia,mes,year,correo,password) values (@ap_paterno,@ap_materno,@nombre,@genero,@dia,@mes,@year,@correo,'12345678')";
-                                SQLiteCommand cmd = new SQLiteCommand(sql, conexion.InstanciaDb());
-                               
-                                //Enviamos los parametros
-                                //Nombre
-                                cmd.Parameters.Add(new SQLiteParameter("@nombre", txtnombre.Text));
-                                //Ap Paterno
-                                cmd.Parameters.Add(new SQLiteParameter("@ap_paterno", txtap.Text));
-                                //Ap materno
-                                cmd.Parameters.Add(new SQLiteParameter("@ap_materno", txtam.Text));
-                                //dia
-                                cmd.Parameters.Add(new SQLiteParameter("@dia", lbdia.Text));
-                                //mes
-                                cmd.Parameters.Add(new SQLiteParameter("@mes", lbmes.Text));
-                                //año
-                                cmd.Parameters.Add(new SQLiteParameter("@year", lbaño.Text));
-                                //genero
-                                cmd.Parameters.Add(new SQLiteParameter("@genero", lbgenero.Text));
-                                //correo
-                                cmd.Parameters.Add(new SQLiteParameter("@correo", txtcorreo.Text));
-                                //password
-                                // cmd.Parameters.Add(new SQLiteParameter("@correo", password));
-                                cmd.Parameters.Add(new SQLiteParameter("@id"));
-                                cmd.ExecuteNonQuery();
-                             
-
-                                MessageBox.Show("Usuario Registrado.");
-                                //bloqueamos los textbox
-                                txtnombre.Enabled = false;
-                                txtap.Enabled = false;
-                                txtam.Enabled = false;
-                                lbdia.Enabled = false;
-                                lbmes.Enabled = false;
-                                lbaño.Enabled = false;
-                                lbgenero.Enabled = false;
-                                txtcorreo.Enabled = false;
-                                btnAceptar.Enabled = false;
-                                MessageBox.Show("Tu usuario es " + txtcorreo.Text + " y tu contraseña es : 12345678");
-                                //contrato.Ejecutar(txtnombre.Text);
-                                //contrato.Ejecutar(txtcorreo.Text);
+                                if (dia <= 31 && dia > 0)
+                                {
+                                    RegistrarUsuario();
+                                }
                             }
-                        }
-                        else if(Convert.ToInt16(lbmes.Text) == 2)
-                        {
-                            if(Convert.ToInt16(lbdia.Text) <=29 && Convert.ToInt16(lbmes.Text) > 0)
+                            else if (mes == 2)
                             {
-                                //string password = "12345678";
-                                var sql = "insert into registro_alumnos(ap_paterno,ap_materno,nombre,genero,dia,mes,year,correo,password) values (@ap_paterno,@ap_materno,@nombre,@genero,@dia,@mes,@year,@correo,'12345678')";
-                                SQLiteCommand cmd = new SQLiteCommand(sql, conexion.InstanciaDb());
-
-                                //Enviamos los parametros
-                                //Nombre
-                                cmd.Parameters.Add(new SQLiteParameter("@nombre", txtnombre.Text));
-                                //Ap Paterno
-                                cmd.Parameters.Add(new SQLiteParameter("@ap_paterno", txtap.Text));
-                                //Ap materno
-                                cmd.Parameters.Add(new SQLiteParameter("@ap_materno", txtam.Text));
-                                //dia
-                                cmd.Parameters.Add(new SQLiteParameter("@dia", lbdia.Text));
-                                //mes
-                                cmd.Parameters.Add(new SQLiteParameter("@mes", lbmes.Text));
-                                //año
-                                cmd.Parameters.Add(new SQLiteParameter("@year", lbaño.Text));
-                                //genero
-                                cmd.Parameters.Add(new SQLiteParameter("@genero", lbgenero.Text));
-                                //correo
-                                cmd.Parameters.Add(new SQLiteParameter("@correo", txtcorreo.Text));
-                                //password
-                                // cmd.Parameters.Add(new SQLiteParameter("@correo", password));
-
-                                cmd.ExecuteNonQuery();
-
-                                MessageBox.Show("Usuario Registrado.");
-                                //bloqueamos los textbox
-                                txtnombre.Enabled = false;
-                                txtap.Enabled = false;
-                                txtam.Enabled = false;
-                                lbdia.Enabled = false;
-                                lbmes.Enabled = false;
-                                lbaño.Enabled = false;
-                                lbgenero.Enabled = false;
-                                txtcorreo.Enabled = false;
-                                btnAceptar.Enabled = false;
-                                MessageBox.Show("Tu usuario es " + txtcorreo.Text + " y tu contraseña es : 12345678");
-                                //contrato.Ejecutar(txtnombre.Text);
-                                //contrato.Ejecutar(txtcorreo.Text);
+                                if (dia <= 29 && dia > 0)
+                                {
+                                    RegistrarUsuario();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Introduzca una fecha válida para Febrero");
+                                }
                             }
                             else
                             {
-                                MessageBox.Show("Introduzca una fecha valida para Febrero");
+                                if (dia <= 30 && dia > 0)
+                                {
+                                    RegistrarUsuario();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Introduzca una fecha válida");
+                                }
                             }
                         }
                         else
                         {
-                            if (Convert.ToInt16(lbdia.Text) <= 30 && Convert.ToInt16(lbmes.Text) > 0)
-                            {
-                                //string password = "12345678";
-                                var sql = "insert into registro_alumnos(ap_paterno,ap_materno,nombre,genero,dia,mes,year,correo,password) values (@ap_paterno,@ap_materno,@nombre,@genero,@dia,@mes,@year,@correo,'12345678')";
-                                SQLiteCommand cmd = new SQLiteCommand(sql, conexion.InstanciaDb());
-
-                                //Enviamos los parametros
-                                //Nombre
-                                cmd.Parameters.Add(new SQLiteParameter("@nombre", txtnombre.Text));
-                                //Ap Paterno
-                                cmd.Parameters.Add(new SQLiteParameter("@ap_paterno", txtap.Text));
-                                //Ap materno
-                                cmd.Parameters.Add(new SQLiteParameter("@ap_materno", txtam.Text));
-                                //dia
-                                cmd.Parameters.Add(new SQLiteParameter("@dia", lbdia.Text));
-                                //mes
-                                cmd.Parameters.Add(new SQLiteParameter("@mes", lbmes.Text));
-                                //año
-                                cmd.Parameters.Add(new SQLiteParameter("@year", lbaño.Text));
-                                //genero
-                                cmd.Parameters.Add(new SQLiteParameter("@genero", lbgenero.Text));
-                                //correo
-                                cmd.Parameters.Add(new SQLiteParameter("@correo", txtcorreo.Text));
-                                //password
-                                // cmd.Parameters.Add(new SQLiteParameter("@correo", password));
-
-                                cmd.ExecuteNonQuery();
-
-                                MessageBox.Show("Usuario Registrado.");
-                                //bloqueamos los textbox
-                                txtnombre.Enabled = false;
-                                txtap.Enabled = false;
-                                txtam.Enabled = false;
-                                lbdia.Enabled = false;
-                                lbmes.Enabled = false;
-                                lbaño.Enabled = false;
-                                lbgenero.Enabled = false;
-                                txtcorreo.Enabled = false;
-                                btnAceptar.Enabled = false;
-                                MessageBox.Show("Tu usuario es " + txtcorreo.Text + " y tu contraseña es : 12345678");
-                                //contrato.Ejecutar(txtnombre.Text);
-                                //contrato.Ejecutar(txtcorreo.Text);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Introduzca una fecha valida");
-                            }
+                            MessageBox.Show("Introduzca un valor válido para el día");
                         }
-                    }//dia
-                    else {
-                        MessageBox.Show("Introduzca un valor valido");
-
-                    }//dia
-
-                }//mes
+                    }
+                    else
+                    {
+                        MessageBox.Show("Introduzca un valor válido para el mes");
+                    }
+                }
                 else
                 {
-                    MessageBox.Show("Introduzca un valor valido");
-                }//mes
-            }//año
-            else
+                    MessageBox.Show("Introduzca un valor válido para el año");
+                }
+            }
+            catch (FormatException)
             {
-                MessageBox.Show("Introduzca un valor valido");
-            }//año
-            
-            
-           
-
+                MessageBox.Show("Introduzca valores numéricos válidos para día, mes y año");
+            }
         }
+
+        /*  private void RegistrarUsuario()
+          {
+              //string password = "12345678";
+              var sql = "insert into registro_alumnos(ap_paterno,ap_materno,nombre,genero,dia,mes,year,correo,password) values (@ap_paterno,@ap_materno,@nombre,@genero,@dia,@mes,@year,@correo,'12345678')";
+              SQLiteCommand cmd = new SQLiteCommand(sql, conexion.InstanciaDb());
+
+              //Enviamos los parametros
+              //Nombre
+              cmd.Parameters.Add(new SQLiteParameter("@nombre", txtnombre.Text));
+              //Ap Paterno
+              cmd.Parameters.Add(new SQLiteParameter("@ap_paterno", txtap.Text));
+              //Ap materno
+              cmd.Parameters.Add(new SQLiteParameter("@ap_materno", txtam.Text));
+              //dia
+              cmd.Parameters.Add(new SQLiteParameter("@dia", lbdia.Text));
+              //mes
+              cmd.Parameters.Add(new SQLiteParameter("@mes", lbmes.Text));
+              //año
+              cmd.Parameters.Add(new SQLiteParameter("@year", lbaño.Text));
+              //genero
+              cmd.Parameters.Add(new SQLiteParameter("@genero", lbgenero.Text));
+              //correo
+              cmd.Parameters.Add(new SQLiteParameter("@correo", txtcorreo.Text));
+              //password
+              // cmd.Parameters.Add(new SQLiteParameter("@correo", password));
+              cmd.Parameters.Add(new SQLiteParameter("@id"));
+              cmd.ExecuteNonQuery();
+
+              MessageBox.Show("Usuario Registrado.");
+              //bloqueamos los textbox
+              txtnombre.Enabled = false;
+              txtap.Enabled = false;
+              txtam.Enabled = false;
+              lbdia.Enabled = false;
+              lbmes.Enabled = false;
+              lbaño.Enabled = false;
+              lbgenero.Enabled = false;
+              txtcorreo.Enabled = false;
+              btnAceptar.Enabled = false;
+              MessageBox.Show("Tu usuario es " + txtcorreo.Text + " y tu contraseña es : 12345678");
+              //contrato.Ejecutar(txtnombre.Text);
+              //contrato.Ejecutar(txtcorreo.Text);
+          }*/
+
+
+        private void RegistrarUsuario()
+        {
+            try
+            {
+                // Definir el comando SQL para la inserción
+                var sql = "insert into registro_alumnos(ap_paterno,ap_materno,nombre,genero,dia,mes,year,correo,password) values (@ap_paterno,@ap_materno,@nombre,@genero,@dia,@mes,@year,@correo,'12345678')";
+                SQLiteCommand cmd = new SQLiteCommand(sql, conexion.InstanciaDb());
+
+                // Enviar los parámetros
+                cmd.Parameters.Add(new SQLiteParameter("@nombre", txtnombre.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@ap_paterno", txtap.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@ap_materno", txtam.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@dia", lbdia.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@mes", lbmes.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@year", lbaño.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@genero", lbgenero.Text));
+                cmd.Parameters.Add(new SQLiteParameter("@correo", txtcorreo.Text));
+
+                // Ejecutar el comando
+                cmd.ExecuteNonQuery();
+
+                // Mostrar mensaje de éxito
+                MessageBox.Show("Usuario Registrado.");
+
+                // Bloquear los campos de texto y el botón
+                txtnombre.Enabled = false;
+                txtap.Enabled = false;
+                txtam.Enabled = false;
+                lbdia.Enabled = false;
+                lbmes.Enabled = false;
+                lbaño.Enabled = false;
+                lbgenero.Enabled = false;
+                txtcorreo.Enabled = false;
+                btnAceptar.Enabled = false;
+
+                // Mostrar información del usuario
+                MessageBox.Show("Tu usuario es " + txtcorreo.Text + " y tu contraseña es : 12345678");
+            }
+            catch (SQLiteException ex)
+            {
+                // Manejar la excepción y mostrar un mensaje de error
+                if (ex.ResultCode == SQLiteErrorCode.Constraint && ex.Message.Contains("UNIQUE"))
+                {
+                    MessageBox.Show("El correo ya está registrado. Introduzca un correo diferente.");
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrió un error al registrar el usuario: " + ex.Message);
+                }
+            }
+        }
+
+
 
         private void txtap_TextChanged(object sender, EventArgs e)
         {
@@ -226,9 +237,30 @@ namespace PILFINAL
         {
             validarcampovacio();
         }
-
+        private void ValidateFields(object sender, EventArgs e)
+        {
+            // Verificar si todos los campos no están vacíos
+            btnAceptar.Enabled = !string.IsNullOrWhiteSpace(txtnombre.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtap.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtam.Text) &&
+                                 !string.IsNullOrWhiteSpace(lbdia.Text) &&
+                                 !string.IsNullOrWhiteSpace(lbmes.Text) &&
+                                 !string.IsNullOrWhiteSpace(lbaño.Text) &&
+                                 !string.IsNullOrWhiteSpace(lbgenero.Text) &&
+                                 !string.IsNullOrWhiteSpace(txtcorreo.Text);
+        }
         private void frmregistro_Load(object sender, EventArgs e)
         {
+            // Agregar eventos TextChanged a los campos de texto para la validación
+            txtnombre.TextChanged += new EventHandler(ValidateFields);
+            txtap.TextChanged += new EventHandler(ValidateFields);
+            txtam.TextChanged += new EventHandler(ValidateFields);
+            lbdia.TextChanged += new EventHandler(ValidateFields);
+            lbmes.TextChanged += new EventHandler(ValidateFields);
+            lbaño.TextChanged += new EventHandler(ValidateFields);
+            lbgenero.TextChanged += new EventHandler(ValidateFields);
+            txtcorreo.TextChanged += new EventHandler(ValidateFields);
+
             btnAceptar.Enabled = false;
             //hacemos que tengan un texto los tectbox en color gris
 
